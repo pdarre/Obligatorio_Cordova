@@ -30,7 +30,5 @@
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
     <icon src="res/icon.png" />
-    <splash src="res/splash.png" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="SplashScreenDelay" value="10000" />
 </widget>

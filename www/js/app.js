@@ -464,6 +464,7 @@ function prepararMarcadores(r) {
                 telefono: r.description[i].telefono,
                 direccion: r.description[i].direccion,
                 imagen: r.description[i].imagen,
+                id: r.description[i].id,
                 ubicacion: {
                     latitudLocal: r.description[i].lat,
                     longitudLocal: r.description[i].lng
@@ -516,7 +517,12 @@ function setMarkers(map) {
 
         var location = talleres[i];
         var locationInfowindow = new google.maps.InfoWindow({
-            content: talleres[i].descripcion,
+            // content: talleres[i].descripcion,
+            content : "<div>" + talleres[i].descripcion + "</div>" +
+                      "<div>" + talleres[i].direccion + "</div>" +
+                      "<div>" + talleres[i].telefono + "</div>" +
+                      "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:50px;height:50px;'>" +
+                      "<div><ons-button modifier='quiet' onclick='avisar(" + talleres[i].id + ")'>Ir al taller</ons-button></div>"
         });
 
         var latitud = parseFloat(talleres[i].ubicacion.latitudLocal);
@@ -549,3 +555,7 @@ function errorUbicacion(_e) {
     ons.notification.alert("Error" + e.toString());
 }
 /* #endregion */
+
+function avisar(id){
+    ons.notification.alert(""+id);
+}

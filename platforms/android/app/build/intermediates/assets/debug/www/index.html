@@ -1,0 +1,267 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="js/onsenui.min.js"></script>
+    <link rel="stylesheet" href="css/onsenui.css">
+    <link rel="stylesheet" href="css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/user.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+
+</head>
+
+<body>
+    <ons-page>
+        <ons-navigator swipeable id="myNavigator" page="login.html"></ons-navigator>
+
+        <template id="login.html">
+            <ons-page id="login">
+                <ons-progress-bar indeterminate></ons-progress-bar>
+                <script>
+                    $("ons-progress-bar").hide();
+                </script>
+                <div class="formulario">
+                    <img id="logoLogin" src="img/logo.png">
+                    <div class="titulo">Login</div>
+                    <p>
+                        <i class="fas fa-user"></i>
+                        <ons-input class="inputForm" id="username" modifier="underbar" placeholder="Username"
+                            value="pablo@pablo.com" float autocomplete></ons-input>
+                    </p>
+                    <p>
+                        <i class="fas fa-key"></i>
+                        <ons-input class="inputForm" id="password" modifier="underbar" type="password"
+                            placeholder="Password" value="carbonero1" float autocomplete></ons-input>
+                    </p>
+                    <p style="margin-top: 30px;">
+                        <ons-button class="inputForm" id="btnlogin" ontouchstart="login();">Ingresar</ons-button>
+                    </p>
+                    <p>
+                        <ons-button class="inputForm" id="linkRegistro" modifier="quiet"
+                            ontouchstart="myNavigator.pushPage('signIn.html')">No estoy registrado</ons-button>
+                    </p>
+                </div>
+            </ons-page>
+        </template>
+
+        <template id="signIn.html">
+            <ons-page id="signIn">
+                <ons-progress-bar indeterminate></ons-progress-bar>
+                <script>
+                    $("ons-progress-bar").hide();
+                </script>
+                <div class="formulario">
+                    <img id="logoLogin" src="img/logo.png">
+                    <div class="titulo">
+                        Registro
+                    </div>
+                    <form>
+                        <p>
+                            <i class="fas fa-at"></i>
+                            <ons-input class="inputForm" type="email" id="txtEmail" placeholder="Email" float
+                                autocomplete></ons-input>
+                        </p>
+                        <p>
+                            <i class="fas fa-phone"></i>
+                            <ons-input class="inputForm" type="number" id="txtTelefono" placeholder="Telefono" float
+                                autocomplete></ons-input>
+                        </p>
+                        <p>
+                            <i class="fas fa-key"></i>
+                            <ons-input class="inputForm" type="password" id="txtPass" placeholder="Contraseña" float
+                                autocomplete></ons-input>
+                        </p>
+                        <p style="margin-top: 30px;">
+                            <p>
+                                <ons-button class="inputForm" id="btnRegistro" ontouchstart="registro();">Registrarse
+                                </ons-button>
+                            </p>
+                            <p>
+                                <ons-button class="inputForm" id="push-button" modifier="quiet"
+                                    ontouchstart="myNavigator.pushPage('login.html')">Ya estoy registrado</ons-button>
+                            </p>
+                            <p>
+                                <ons-button class="inputForm" id="push-button" modifier="quiet"
+                                    ontouchstart="cargarPagina();">Saltar a splitter</ons-button>
+                            </p>
+                    </form>
+                </div>
+            </ons-page>
+        </template>
+
+        <template id="appPage.html">
+            <ons-page id="appPage">
+                <ons-splitter>
+                    <ons-splitter-side swipe-target-width="60px" id="menu" side="left" width="220px" collapse swipeable>
+                        <ons-page>
+                            <ons-list>
+                                <ons-list-item id="tituloMenu">
+                                    <div id="contenedorTitulo">
+                                        <div id="contenedorFotoUsuario">
+                                            <img id="logoUser" src="img/user.png">
+                                        </div>
+                                    </div>
+                                    <div id="contenedorDatosUsuario">
+                                        <label id="lblIdUsuario">XXX</label>
+                                        <label id="lblEmail">xxxxxx@xxxxxx.com</label>
+                                    </div>
+                                </ons-list-item>
+                                <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('home.html')"
+                                    tappable>
+                                    <i id="iconMyCars" class="fas fa-car"></i> Mi vehiculo
+                                </ons-list-item>
+                                <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('misServicios.html')"
+                                    tappable>
+                                    <i class="fas fa-tools"></i> Mis servicios
+                                </ons-list-item>
+                                <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('ubicacion.html')"
+                                    tappable>
+                                    <i class="fas fa-sign-out-alt"></i> Mapas
+                                </ons-list-item>
+                            </ons-list>
+                            <ons-list-item side="right" class="textMenu" id="menuFooter" ontouchstart="logout();"
+                                tappable>
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </ons-list-item>
+                        </ons-page>
+                    </ons-splitter-side>
+                    <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+                </ons-splitter>
+
+                <template id="home.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button ontouchstart="fn.open()">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">
+                                Mi Vehiculo
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <script>
+                            $("ons-progress-bar").hide();
+                            listarVehiculos();
+                        </script>
+                        <ons-fab position="bottom right">
+                            <ons-icon icon="md-plus" ontouchstart="fn.load('agregarVehiculo.html')"></ons-icon>
+                        </ons-fab>
+
+                        <div id="contenidoMiVehiculo"></div>
+
+                    </ons-page>
+                </template>
+
+                <template id="misServicios.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button ontouchstart="fn.open()">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">
+                                Servicios
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <script>
+                            $("ons-progress-bar").hide();
+                        </script>
+
+                        <div id="contenidoMisServicios"></div>
+
+                    </ons-page>
+                </template>
+
+                <template id="ubicacion.html">
+                    <ons-page id="ubicacion">
+                        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8&callback=initMap" async
+						 defer></script> -->
+                        <script
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8"
+                            async defer></script>
+                        <style>
+                            html,
+                            body {
+                                margin: 0;
+                                padding: 0;
+                            }
+
+                            #map {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        </style>
+                        <ons-toolbar>
+                            <script>correrMapa();</script>
+                            <div class="left">
+                                <ons-toolbar-button onclick="fn.open()">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">
+                                Mostrar ubicacion
+                            </div>
+                        </ons-toolbar>
+                        <div id="map">
+                        </div>
+                    </ons-page>
+                </template>
+
+                <template id="agregarVehiculo.html">
+                    <ons-page>
+                        <ons-toolbar>
+                            <div class="left">
+                                <ons-toolbar-button ontouchstart="fn.open()">
+                                    <ons-icon icon="md-menu"></ons-icon>
+                                </ons-toolbar-button>
+                            </div>
+                            <div class="center">
+                                Agregar vechiculo
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <script>
+                            $("ons-progress-bar").hide();
+                        </script>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <p>
+                                <ons-input id="txtMAtricula" modifier="underbar" placeholder="Matricula" float>
+                                </ons-input>
+                            </p>
+                            <p>
+                                <ons-input id="txtDescripcion" modifier="underbar" placeholder="Descripcion" float>
+                                </ons-input>
+                            </p>
+                            <p style="margin-top: 30px;">
+                                <ons-button ontouchstart="guardarVehiculo();">Guardar</ons-button>
+                            </p>
+                        </div>
+                    </ons-page>
+                </template>
+
+                <ons-modal id="modalServicios" style="overflow: auto; width:100%;">
+                    <div style="text-align: center" style="color:white; background-color: coral;">
+                        <div id="divModalServicios"></div>
+                        <p>
+                            <ons-button onclick="hideModalServicios()" modifier="quiet" style="color: white;">Cerrar
+                            </ons-button>
+                        </p>
+                    </div>
+                </ons-modal>
+
+                <script type="text/javascript" src="cordova.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml_config.xml.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
+    },
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_icon.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\mipmap-mdpi\\icon.png"
+    },
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_screen.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\screen.png"
+    },
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml_camera_provider_paths.xml.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\xml\\camera_provider_paths.xml"
+    }
+]

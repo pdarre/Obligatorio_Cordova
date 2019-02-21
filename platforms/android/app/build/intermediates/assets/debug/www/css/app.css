@@ -1,0 +1,86 @@
+#tituloMenu{
+    height: 120px;
+    background-color: #303F9F;
+  }
+  
+  #contenedorDatosUsuario{
+    color: white;
+  }
+  
+  #menuFooter{
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    width:100%;
+    height: 50px;
+    background-color: white;
+          vertical-align:middle;
+          line-height:normal;
+      border-top: 1px solid rgb(245, 242, 242);
+      border-top-width: 80%;
+  }
+  
+  #contenedorFotoUsuario{
+    text-align: center;
+    width: 70px;
+  }
+  #contenedorDatosUsuario{
+    text-align: left;
+    width: 50px;
+  }
+  
+  #logoUser{
+    width: 90%;
+    margin-left: -20px;
+  }
+  
+  .fas{
+    margin-right: 30px;
+  }
+  
+  .textMenu{
+    text-align: right;
+  }
+  
+  #logoLogin{
+      width: 70%;
+      margin-top: 100px;
+      margin-bottom: 30px;
+  }
+  
+  #progressCircular{
+      visibility: hidden;
+  }
+  
+  #progressCircularRegistro{
+      visibility: hidden;
+  }
+  
+  .inputForm{
+      width: 60%;
+  }
+  
+  .btnForm{
+      width: 70%;
+  }
+  
+  .formulario{
+      text-align: center;
+  }
+  
+  .titulo{
+      font: bolder;
+      font-size: 30px;
+      text-align: center;
+  }
+  
+  #tituloRegistroVehiculo{
+    margin-top: 70px;
+  }
+  .center{
+      text-align: center;
+  }
+  
+  #iconPlus{
+    margin-top: 18px;
+  }

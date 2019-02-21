@@ -158,7 +158,12 @@ function getDatosUsuario(id) {
     });
 }
 
-// METODOS API
+/* #endregion */
+
+
+/* #region METODOS API */
+var resp;
+
 function registro() {
     var usu = $("#txtEmail").val();
     var tel = $("#txtTelefono").val();
@@ -188,11 +193,6 @@ function registro() {
         });
     }
 }
-/* #endregion */
-
-
-/* #region METODOS API */
-var resp;
 
 function login() {
     var usu = $("#username").val();
@@ -491,15 +491,20 @@ var markers = [];
 
 var latActual;
 var lonActual;
+var directionsService;
+var directionsDisplay;
 
 function mostrarMapa(ubi) {
     latActual = ubi.coords.latitude;
     lonActual = ubi.coords.longitude;
+    directionsService = new google.maps.DirectionsService;
+    directionsDisplay = new google.maps.DirectionsRenderer;
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: latActual, lng: lonActual },
         zoom: 10
     });
+    directionsDisplay.setMap(map);
 
     var marker = new google.maps.Marker({
         position: { lat: latActual, lng: lonActual },
@@ -512,18 +517,34 @@ function mostrarMapa(ubi) {
     setMarkers(map);
 }
 
-function setMarkers(map) {
-    for (var i = 0; i < talleres.length; i++) {
+function dibujarRuta(lati, long){
+    directionsService.route({
+        origin: {lat: latActual, lng: lonActual},
+        destination: {lat: parseFloat(lati), lng: parseFloat(long)},
+        travelMode: 'DRIVING'
+    }, function (response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+            console.log(response);
+        } else {
+            ons.notification.alert('Solicitud fallida: ' + status);
+        }
+    });
+}
 
+function setMarkers(map) {    
+    for (var i = 0; i < talleres.length; i++) {
         var location = talleres[i];
         var locationInfowindow = new google.maps.InfoWindow({
             // content: talleres[i].descripcion,
-            content : "<div>" + talleres[i].descripcion + "</div>" +
+            content : "<div><strong>" + talleres[i].descripcion + "</strong></div>" +
                       "<div>" + talleres[i].direccion + "</div>" +
                       "<div>" + talleres[i].telefono + "</div>" +
-                      "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:50px;height:50px;'>" +
-                      "<div><ons-button modifier='quiet' onclick='avisar(" + talleres[i].id + ")'>Ir al taller</ons-button></div>"
+                      "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:100px;height:80px;'>" +
+                      "<div><ons-button modifier='quiet' onclick='crearRuta(" + talleres[i].ubicacion.latitudLocal +","+ talleres[i].ubicacion.longitudLocal + ")'>Ruta al taller</ons-button></div>" +
+                      "<div><ons-button modifier='quiet' onclick='crearRuta(" + talleres[i].id + ")'>Registrar servicio</ons-button></div>"
         });
+        console.log(talleres[i].imagen);
 
         var latitud = parseFloat(talleres[i].ubicacion.latitudLocal);
         var longitud = parseFloat(talleres[i].ubicacion.longitudLocal);
@@ -554,8 +575,8 @@ function hideAllInfoWindows(map) {
 function errorUbicacion(_e) {
     ons.notification.alert("Error" + e.toString());
 }
-/* #endregion */
 
-function avisar(id){
-    ons.notification.alert(""+id);
+function crearRuta(lat, long){
+    dibujarRuta(lat, long);
 }
+/* #endregion */

@@ -1,3 +1,30 @@
+document.addEventListener('DOMContentLoaded', function (event) {
+    BD.webdb.open();
+    BD.webdb.createTable();
+    checkConnection();
+  })
+
+
+document.addEventListener('init', function (event) {
+    if (event.target.matches('#selecionarServicio')) {
+        ons.notification.alert('Page is initiated');
+        listarServicios();
+        $("ons-progress-bar").hide();
+    }
+})
+
+document.addEventListener("offline", onOffline, false); 
+function onOffline() {
+    ons.notification.alert('Conecte el dispositivo a internet');
+}
+
+function init() {
+    BD.webdb.open();
+    BD.webdb.createTable();
+    checkConnection();
+};
+
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,6 +48,7 @@ var app = {
     // Application Constructor
     initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+        
     },
 
     // deviceready Event Handler
@@ -31,6 +59,7 @@ var app = {
         this.receivedEvent('deviceready');
         window.addEventListener("batterystatus", onBatteryStatus, false);
         chequearConexion();
+        
     },
 
     // Update DOM on a Received Event
@@ -52,24 +81,25 @@ function chequearConexion() {
     if (con == "No network connection") {
         ons.notification.alert("No hay conexion a internet");
     }
-}
+};
 
 // NETWORK CHECK
 function checkConnection() {
     var networkState = navigator.connection.type;
 
     var states = {};
-    states[Connection.UNKNOWN] = 'Unknown connection';
+    states[Connection.UNKNOWN]  = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
-    states[Connection.WIFI] = 'WiFi connection';
-    states[Connection.CELL_2G] = 'Cell 2G connection';
-    states[Connection.CELL_3G] = 'Cell 3G connection';
-    states[Connection.CELL_4G] = 'Cell 4G connection';
-    states[Connection.CELL] = 'Cell generic connection';
-    states[Connection.NONE] = 'No network connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
 
-    return states[networkState];
+    ons.notification.alert('Connection type: ' + states[networkState]);
 }
+
 
 // NAVIGATOR
 document.addEventListener('init', function (event) {
@@ -124,6 +154,7 @@ BD.webdb.onError = function (tx, e) {
 };
 
 BD.webdb.onSuccess = function (tx, r) {
+    ons.notification.toast("Favorito agregado", { timeout: 3000 });
     console.log("Success: " + r.toString());
 };
 
@@ -131,21 +162,21 @@ BD.webdb.onSuccess = function (tx, r) {
 BD.webdb.createTable = function () {
     var db = BD.webdb.db;
     db.transaction(function (tx) {
-        tx.executeSql("CREATE TABLE IF NOT EXISTS Favoritos (favId integer primary key AUTOINCREMENT, idUsu TEXT, tallerLong TEXT, tallerLat TEXT)", []);
+        tx.executeSql("CREATE TABLE IF NOT EXISTS Favoritos (idUsuario TEXT, servicioID integer)", []);
     });
 };
 
 //AGREGANDO DATOS A LA TABLA
-BD.webdb.addUsuario = function () {
+BD.webdb.addFavorito = function (idu, ids) {
     var db = BD.webdb.db;
     db.transaction(function (tx) {
-        var addedOn = new Date();
-        tx.executeSql("INSERT INTO Usuario(idUsuario, email, token, added_on) VALUES (?,?,?,?)",
-            [idUsu, emailUsu, tokenUsu, addedOn],
-            BD.webdb.onSuccess,
-            BD.webdb.onError);
+      var addedOn = new Date();
+      tx.executeSql("INSERT INTO Favoritos(idUsuario, servicioID) VALUES (?,?)",
+        [idu, ids],
+        BD.webdb.onSuccess,
+        BD.webdb.onError);
     });
-};
+  };
 
 //RECUPERANDO LOS DATOS DEL USUARIO
 function getDatosUsuario(id) {
@@ -156,7 +187,7 @@ function getDatosUsuario(id) {
             console.log(results);
         });
     });
-}
+};
 
 /* #endregion */
 
@@ -191,8 +222,8 @@ function registro() {
                 enableInputs();
             }
         });
-    }
-}
+    };
+};
 
 function login() {
     var usu = $("#username").val();
@@ -222,8 +253,8 @@ function login() {
                 enableInputs();
             }
         });
-    }
-}
+    };
+};
 
 function guardarVehiculo() {
     var mat = $("#txtMAtricula").val();
@@ -250,8 +281,8 @@ function guardarVehiculo() {
                 ons.notification.toast(xmlrequest.responseJSON.descripcion, { timeout: 2000 });
             }
         });
-    }
-}
+    };
+};
 
 function listarVehiculos() {
     var idU = sessionStorage.getItem("idUsuario");
@@ -262,28 +293,40 @@ function listarVehiculos() {
         url: "http://api.marcelocaiafa.com/vehiculo/?usuario=" + idU,
         type: "GET",
         success: function (response) {
-            var auto = response.description[0];
-            $('#contenidoMiVehiculo').append(
-                "<ons-card>" +
-                "<img src='img/imagenAuto.png'>" +
-                "<div class='title'>" +
-                "Matricula: " + auto.matricula +
-                "</div>" +
-                "<div class='content'>" +
-                "<div>ID: " + auto.id + "</div>" +
-                "<div>Desc: " + auto.descripcion + "</div>" +
-                "</div>" +
-                "<div>" +
-                "<ons-button modifier='quiet' ontouchstart='listarServiciosById(" + auto.id + ")'>Mis servicios</ons-button>" +
-                "<ons-button modifier='quiet' ontouchstart='listarServicios()'>Agregar servicio</ons-button>" +
-                "</div>" +
-                "</ons-card>"
-            );
+            cargarListaMisVehiculos(response);
         },
         error: function (response) {
             ons.notification.toast(response.description, { timeout: 3000 });
         }
     });
+};
+
+function cargarListaMisVehiculos(r) {
+    for (var i = 0; i < r.description.length; i++) {
+        $('#contenidoMiVehiculo').append(
+            "<ons-card>" +
+            // "<div style='width:20%;'>" +
+            // "<img src='img/imagenAuto.png'>" +
+            // "</div>" +
+            "<div class='title' width:80%;>" +
+            "Matricula: " + r.description[i].matricula +
+            "</div>" +
+            "<div class='content'>" +
+            "<div>ID: " + r.description[i].id + "</div>" +
+            "<div>Desc: " + r.description[i].descripcion + "</div>" +
+            "</div>" +
+            "<div>" +
+            "<ons-button modifier='quiet' ontouchstart='listarServiciosById(" + r.description[i].id + ")'>Mis servicios</ons-button>" +
+            "<ons-button modifier='quiet' ontouchstart='caargarPaginaServicios(" + r.description[i].id + ")'>Agregar servicio</ons-button>" +
+            "</div>" +
+            "</ons-card>"
+        )
+    };
+};
+
+function caargarPaginaServicios(id) {
+    sessionStorage.setItem('vehiculoId', id);
+    fn.load("servicios.html");
 }
 
 function listarServicios() {
@@ -300,7 +343,7 @@ function listarServicios() {
             ons.notification.toast(response.descripcion, { timeout: 3000 });
         }
     });
-}
+};
 
 function listarServiciosById(id) {
     $.ajax({
@@ -310,32 +353,36 @@ function listarServiciosById(id) {
         url: "http://api.marcelocaiafa.com/mantenimiento/?vehiculo=" + id,
         type: "GET",
         success: function (response) {
-            cargarServicios(response);
+            // cargarServicios(response);
         },
         error: function (response) {
             if (response.status == 0) {
                 ons.notification.toast('No hay servicios para el vehiculo', { timeout: 2000 });
             }
-            // ons.notification.toast(response.description, { timeout: 3000 });
+            ons.notification.toast(response.description, { timeout: 3000 });
         }
     });
-}
+};
+
 
 function cargarServicios(r) {
+    var inicio = "<ons-list>";
+    var medio;
     for (var i = 0; i < r.description.length; i++) {
-        $('#divModalServicios').append(
-            "<ons-list>" +
-            "<ons-list-item expandable>" +
+        medio += "<ons-list-item expandable>" +
             "<p style='font-weight: bold;'>" + r.description[i].nombre + "</p>" +
             "<div class='expandable-content'>" +
             "<p>" + "Desc: " + r.description[i].descripcion + "</p>" +
-            "<ons-button modifier='quiet' ontouchstart='solicitarServicio(" + r.description[i].id + ")'>Solicitar</ons-button>" +
+            "<ons-button modifier='quiet' onclick='solicitarServicio(" + r.description[i].id + ");" + " cargarNombre(\"" + r.description[i].nombre + "\");'>Solicitar</ons-button>" +
             "</div>" +
-            "</ons-list-item>" +
-            "</ons-list>"
-        );
-    }
-    showModalServicios();
+            "</ons-list-item>"
+    };
+    var fin = "</ons-list>";
+    document.getElementById('selServicios').innerHTML = inicio += medio += fin;
+};
+
+function cargarNombre(nom) {
+    sessionStorage.setItem("nombreServicio", nom);
 }
 
 function solicitarServicio(id) {
@@ -346,15 +393,47 @@ function solicitarServicio(id) {
         url: "http://api.marcelocaiafa.com/taller/?servicio=" + id,
         type: "GET",
         success: function (response) {
-            prepararMarcadores(response)
-
-            document.querySelector('#myNavigator').pushPage('ubicacion.html');
+            sessionStorage.setItem("servicioId", id);
+            prepararMarcadores(response);
+            myNavigator.pushPage('mapa.html');
         },
         error: function (response) {
             ons.notification.toast(response.description, { timeout: 3000 });
         }
     });
+};
+
+function guardarServicio() {
+    var idU = sessionStorage.getItem("idUsuario");
+    var datos = {
+        vehiculo: vehiculoid,
+        descripcion: desc,
+        fecha: fecha,
+        servicio: servicioid,
+        kilometraje: kilometraje,
+        costo: costo,
+        taller: tallerid
+    };
+    datos = JSON.stringify(datos);
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/mantenimiento",
+        type: "POST",
+        data: datos,
+        success: function (response) {            
+            myNavigator.resetToPage('appPage.html');
+            limpiarFormularioServicios();
+            hideDialog();
+        },
+        error: function (response) {
+            // ons.notification.alert(response.responseJSON.descripcion);
+            ons.notification.toast(response.responseJSON.descripcion, { timeout: 2000 });
+        }
+    });
 }
+
 
 function logout() {
     ons.notification.confirm({
@@ -382,43 +461,25 @@ function logout() {
             }
         }
     });
-}
+};
 /* #endregion */
-
-
-/* #region ACCESORIOS */
-function showModalServicios() {
-    var modal = $('#modalServicios');
-    modal.show();
-}
-
-function hideModalServicios() {
-    var modal = $('#modalServicios');
-    //vacia el modal
-    document.getElementById('divModalServicios').innerHTML = '';
-    modal.hide();
-}
 
 function cargarDatosUsuario() {
     $(document).ready(function () {
         $("#lblEmail").text(sessionStorage.getItem("email"));
         $('#lblIdUsuario').text("ID: " + sessionStorage.getItem("idUsuario"));
     });
-}
-
-function cargarPagina() {
-    window.location = "appPage.html";
-}
+};
 
 function disableInputs() {
     $(".inputForm").prop('disabled', true);
     $("ons-progress-bar").show();
-}
+};
 
 function enableInputs() {
     $(".inputForm").prop('disabled', false);
     $("ons-progress-bar").hide();
-}
+};
 
 function validarEmail(EmailId) {
     var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -426,8 +487,8 @@ function validarEmail(EmailId) {
         return true;
     } else {
         ons.notification.alert("Ingrese un email valido");
-    }
-}
+    };
+};
 
 function validarTelefono(telefono) {
     var telReg = /^09[0-9]{7}|[0-9]{8}$/;
@@ -435,26 +496,20 @@ function validarTelefono(telefono) {
         return true;
     } else {
         ons.notification.alert("Ingrese un telefono valido");
-    }
-}
+    };
+};
 
 function esVacio(text) {
     if (text.length <= 0) {
         return true;
     }
     return false;
-}
+};
 
 function cargarPagina() {
-    var myNavigator = document.getElementById('myNavigator');
+    // document.querySelector('#myNavigator').pushPage('appPage.html');
     myNavigator.pushPage('appPage.html');
-}
-
-function init() {
-    BD.webdb.open();
-    BD.webdb.createTable();
-    checkConnection();
-}
+};
 
 function prepararMarcadores(r) {
     for (var i = 0; i < r.description.length; i++) {
@@ -470,9 +525,10 @@ function prepararMarcadores(r) {
                     longitudLocal: r.description[i].lng
                 }
 
-            })
-    }
-}
+            });
+    };
+};
+
 /* #endregion */
 
 
@@ -481,11 +537,10 @@ function prepararMarcadores(r) {
 var talleres = [];
 
 function correrMapa() {
-
     navigator.geolocation.getCurrentPosition(mostrarMapa,
         errorUbicacion,
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 5000 });
-}
+};
 
 var markers = [];
 
@@ -515,36 +570,35 @@ function mostrarMapa(ubi) {
     });
 
     setMarkers(map);
-}
+};
 
-function dibujarRuta(lati, long){
+function dibujarRuta(lati, long) {
     directionsService.route({
-        origin: {lat: latActual, lng: lonActual},
-        destination: {lat: parseFloat(lati), lng: parseFloat(long)},
+        origin: { lat: latActual, lng: lonActual },
+        destination: { lat: parseFloat(lati), lng: parseFloat(long) },
         travelMode: 'DRIVING'
-    }, function (response, status) {
-        if (status === 'OK') {
-            directionsDisplay.setDirections(response);
-            console.log(response);
-        } else {
-            ons.notification.alert('Solicitud fallida: ' + status);
-        }
-    });
-}
-
-function setMarkers(map) {    
+    },
+        function (response, status) {
+            if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+            } else {
+                ons.notification.alert('Solicitud fallida: ' + status);
+            }
+        });
+};
+function setMarkers(map) {
     for (var i = 0; i < talleres.length; i++) {
         var location = talleres[i];
         var locationInfowindow = new google.maps.InfoWindow({
-            // content: talleres[i].descripcion,
-            content : "<div><strong>" + talleres[i].descripcion + "</strong></div>" +
-                      "<div>" + talleres[i].direccion + "</div>" +
-                      "<div>" + talleres[i].telefono + "</div>" +
-                      "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:100px;height:80px;'>" +
-                      "<div><ons-button modifier='quiet' onclick='crearRuta(" + talleres[i].ubicacion.latitudLocal +","+ talleres[i].ubicacion.longitudLocal + ")'>Ruta al taller</ons-button></div>" +
-                      "<div><ons-button modifier='quiet' onclick='crearRuta(" + talleres[i].id + ")'>Registrar servicio</ons-button></div>"
+            content: "<div><strong>" + talleres[i].descripcion + "</strong></div>" +
+                "<div>" + talleres[i].direccion + "</div>" +
+                "<div>" + talleres[i].telefono + "</div>" +
+                "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:100px;height:80px;'>" +
+                "<div><ons-button modifier='quiet' onclick='agregarFavoritos(" + talleres[i].id + ")'>favorito</ons-button></div>" +
+                "<div><ons-button modifier='quiet' onclick='crearRuta(" +
+                talleres[i].ubicacion.latitudLocal + "," + talleres[i].ubicacion.longitudLocal + ")'>Ruta al taller</ons-button></div>" +
+                "<div><ons-button modifier='quiet' onclick='RegistrarServicio(" + talleres[i].id + ")'>Registrar servicio</ons-button></div>"
         });
-        console.log(talleres[i].imagen);
 
         var latitud = parseFloat(talleres[i].ubicacion.latitudLocal);
         var longitud = parseFloat(talleres[i].ubicacion.longitudLocal);
@@ -559,24 +613,90 @@ function setMarkers(map) {
         markers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function () {
-            hideAllInfoWindows(map);
+            hideAllInfoWindows(map);            
             this.infowindow.open(map, this);
         });
 
-    }
-}
+    };
+};
 
 function hideAllInfoWindows(map) {
     markers.forEach(function (marker) {
         marker.infowindow.close(map, marker);
     });
+};
+
+function RegistrarServicio(id) {
+    sessionStorage.setItem("tallerId", id);
+    showTemplateDialog(id);
+};
+
+function agregarFavoritos(id){    
+    var idu = sessionStorage.getItem('idUsuario');
+    var ids = sessionStorage.getItem('servicioId');
+    BD.webdb.addFavorito(idu, ids);
+}
+
+var showTemplateDialog = function (id) {
+    var dialog = document.getElementById('my-dialog');
+    if (dialog) {
+        dialog.show();
+        //cargar los datos que ya tengo desde sessionStage/ recordar guardar en session el id del servicio
+    } else {
+        ons.createElement('dialog.html', { append: true })
+            .then(function (dialog) {
+                dialog.show();
+            });
+    }
+
+};
+
+var vehiculoid;
+var desc;
+var fecha;
+var servicioid;
+var kilometraje;
+var costo;
+var tallerid;
+
+function aceptar() {
+    // limpiarFormulario()????
+    vehiculoid = sessionStorage.getItem('vehiculoId');
+    desc = sessionStorage.getItem('nombreServicio');
+    var date = formato($('#txtDate').val());
+    servicioid = sessionStorage.getItem('servicioId');
+    kilometraje = $('#txtKilometraje').val();
+    costo = $('#txtCosto').val();
+    tallerid = sessionStorage.getItem('tallerId');
+
+    var currentdate = new Date();
+    fecha = date + " " +
+        + currentdate.getHours() + ":"
+        + currentdate.getMinutes();
+
+    guardarServicio();
+
+}
+
+function limpiarFormularioServicios() {
+    $('#txtDate').val('');
+    $('#txtKilometraje').val('');
+    $('#txtCosto').val('');
+}
+
+function formato(texto) {
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
+}
+
+function hideDialog(){
+    $('#my-dialog').hide();
 }
 
 function errorUbicacion(_e) {
     ons.notification.alert("Error" + e.toString());
-}
+};
 
-function crearRuta(lat, long){
+function crearRuta(lat, long) {
     dibujarRuta(lat, long);
-}
+};
 /* #endregion */

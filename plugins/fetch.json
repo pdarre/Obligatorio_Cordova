@@ -7,26 +7,26 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-camera": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-camera@4.0.3"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
-  "cordova-plugin-battery-status": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-battery-status"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-geolocation": {
     "source": {
       "type": "registry",
       "id": "cordova-plugin-geolocation@4.0.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "skwas-cordova-plugin-datetimepicker": {
+    "source": {
+      "type": "registry",
+      "id": "skwas-cordova-plugin-datetimepicker"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-network-information": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-network-information"
     },
     "is_top_level": true,
     "variables": {}

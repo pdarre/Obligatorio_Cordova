@@ -29,7 +29,7 @@
                     $("ons-progress-bar").hide();
                 </script>
                 <div class="formulario">
-                    <img id="logoLogin" src="img/logo.png">
+                    <img id="logoLogin" style="padding-left: 5%" src="img/logoCircular2.png">
                     <div class="titulo">Login</div>
                     <p>
                         <i class="fas fa-user"></i>
@@ -59,7 +59,7 @@
                     $("ons-progress-bar").hide();
                 </script>
                 <div class="formulario">
-                    <img id="logoLogin" src="img/logo.png">
+                    <img id="logoLogin" style="padding-left: 5%" src="img/logoCircular2.png">
                     <div class="titulo">
                         Registro
                     </div>
@@ -89,8 +89,8 @@
                                     ontouchstart="myNavigator.pushPage('login.html')">Ya estoy registrado</ons-button>
                             </p>
                             <p>
-                                <ons-button class="inputForm" id="push-button" modifier="quiet"
-                                    ontouchstart="cargarPagina();">Saltar a splitter</ons-button>
+                                <ons-button modifier="quiet" ontouchstart="myNavigator.pushPage('appPage.html')">app
+                                </ons-button>
                             </p>
                     </form>
                 </div>
@@ -145,7 +145,7 @@
                                 </ons-toolbar-button>
                             </div>
                             <div class="center">
-                                Mi Vehiculo
+                                Mis Vehiculos
                             </div>
                         </ons-toolbar>
                         <ons-progress-bar indeterminate></ons-progress-bar>
@@ -159,6 +159,55 @@
 
                         <div id="contenidoMiVehiculo"></div>
 
+                    </ons-page>
+                </template>
+
+                <template id="mapa.html">
+                    <ons-page id="mapa">
+                        <script
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8&callback=correrMapa"
+                            async defer></script>
+                        <style>
+                            html,
+                            body {
+                                margin: 0;
+                                padding: 0;
+                            }
+
+                            #map {
+                                width: 100%;
+                                height: 100%;
+                            }
+                        </style>
+                        <div id="map">
+                        </div>
+                        <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+                            <div class="alert-dialog-title">MAntenimiento</div>
+                            <div class="alert-dialog-content">
+                            </div>
+                            <div id="dialogConfirmarService"></div>
+                            <div class="alert-dialog-footer">
+                                <ons-alert-dialog-button onclick="dialogAgregarMantenimientoHide()">Cancel
+                                </ons-alert-dialog-button>
+                                <ons-alert-dialog-button onclick="dialogAgregarMantenimientoHide()">OK
+                                </ons-alert-dialog-button>
+                            </div>
+                        </ons-alert-dialog>
+                    </ons-page>
+                </template>
+
+                <template id="confirmarServicio.html">
+                    <ons-page>
+                        <ons-toolbar>
+
+                            <div class="center">
+                                Confirmar
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <script>
+                            <ons-button id="pop" onclick="navigator.popPage()"></ons-button>
+                        </script>
                     </ons-page>
                 </template>
 
@@ -184,43 +233,10 @@
                     </ons-page>
                 </template>
 
-                <template id="ubicacion.html">
-                    <ons-page id="ubicacion">
-                        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8&callback=initMap" async
-						 defer></script> -->
-                        <script
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8"
-                            async defer></script>
-                        <style>
-                            html,
-                            body {
-                                margin: 0;
-                                padding: 0;
-                            }
 
-                            #map {
-                                width: 100%;
-                                height: 100%;
-                            }
-                        </style>
-                        <ons-toolbar>
-                            <script>correrMapa();</script>
-                            <div class="left">
-                                <ons-toolbar-button onclick="fn.open()">
-                                    <ons-icon icon="md-menu"></ons-icon>
-                                </ons-toolbar-button>
-                            </div>
-                            <div class="center">
-                                Mostrar ubicacion
-                            </div>
-                        </ons-toolbar>
-                        <div id="map">
-                        </div>
-                    </ons-page>
-                </template>
 
                 <template id="agregarVehiculo.html">
-                    <ons-page>
+                    <ons-page id="agregarVehiculo">
                         <ons-toolbar>
                             <div class="left">
                                 <ons-toolbar-button ontouchstart="fn.open()">
@@ -251,17 +267,62 @@
                     </ons-page>
                 </template>
 
-                <ons-modal id="modalServicios" style="overflow: auto; width:100%;">
-                    <div style="text-align: center" style="color:white; background-color: coral;">
-                        <div id="divModalServicios"></div>
-                        <p>
-                            <ons-button onclick="hideModalServicios()" modifier="quiet" style="color: white;">Cerrar
-                            </ons-button>
-                        </p>
-                    </div>
-                </ons-modal>
 
-                <script type="text/javascript" src="cordova.js"></script>
+                <template id="selecionarServicio.html">
+                    <ons-page id="selecionarServicio">
+                        <ons-toolbar>
+                            <div class="center">
+                                Seleccionar servicios
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <div id="listaServicios">
+                    </ons-page>
+                </template>
+
+                <template id="servicios.html">
+                    <ons-page id="servicios">
+                        <ons-toolbar>
+                            <div class="center">
+                                Servicios
+                            </div>
+                        </ons-toolbar>
+                        <ons-progress-bar indeterminate></ons-progress-bar>
+                        <script>
+                            $("ons-progress-bar").hide();
+                            listarServicios();
+                        </script>
+                        <div id="selServicios">
+                        </div>
+                    </ons-page>
+                </template>
+
+                <template id="dialog.html">
+                    <ons-dialog id="my-dialog">
+                        <div style="text-align: center; padding: 10px;">
+                            <label id="lblDialog"></label>
+                            <div style="text-align: center; margin-top: 30px;">
+                                <p>
+                                    <ons-input id="txtDate" type="date" modifier="underbar" placeholder="Fecha"  float></ons-input>
+                                </p>
+                                <p>
+                                    <ons-input id="txtKilometraje" modifier="underbar" type="number" placeholder="Kilometraje" float>
+                                    </ons-input>
+                                </p>
+                                <p>
+                                    <ons-input id="txtCosto" modifier="underbar" type="number" placeholder="Costo"
+                                        float></ons-input>
+                                </p>
+                                <div>
+                                    <ons-button onclick="aceptar()">Aceptar</ons-button>
+                                    <ons-button onclick="hideDialog('my-dialog')">Close</ons-button>
+                                </div>
+                            </div>
+                    </ons-dialog>
+                </template>
+        </template>
+
+        <script type="text/javascript" src="cordova.js"></script>
 </body>
 
 </html>

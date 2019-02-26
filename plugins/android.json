@@ -10,13 +10,13 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.cordova.pablo"
     },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "io.cordova.pablo"
-    },
-    "cordova-plugin-battery-status": {
-      "PACKAGE_NAME": "io.cordova.pablo"
-    },
     "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "io.cordova.pablo"
+    },
+    "skwas-cordova-plugin-datetimepicker": {
+      "PACKAGE_NAME": "io.cordova.pablo"
+    },
+    "cordova-plugin-network-information": {
       "PACKAGE_NAME": "io.cordova.pablo"
     }
   },

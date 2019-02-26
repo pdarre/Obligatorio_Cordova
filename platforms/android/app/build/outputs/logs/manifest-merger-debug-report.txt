@@ -1,25 +1,13 @@
 -- Merging decision tree log ---
-provider#org.apache.cordova.camera.FileProvider
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:12:9-14:20
-	android:grantUriPermissions
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:12:92-126
-	android:authorities
-		INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:12:19-66
-	android:exported
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:12:67-91
-	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:12:127-180
 manifest
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-MERGED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:17:1-27:12
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 MERGED from [:CordovaLib] C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\CordovaLib\build\intermediates\manifests\full\debug\AndroidManifest.xml:20:1-27:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-21:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:1-18:12
 	package
 		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:2:102-128
 		INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml
@@ -55,9 +43,7 @@ ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\
 	android:name
 		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:5:5-15:19
-MERGED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:25:5-20
-MERGED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:25:5-20
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:5:5-12:19
 	android:supportsRtl
 		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:5:114-140
 	android:label
@@ -93,40 +79,30 @@ ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\
 	android:name
 		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:9:27-74
 uses-sdk
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:5-74
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:5-74
-MERGED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:21:5-23:54
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:5-74
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:5-74
 MERGED from [:CordovaLib] C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\CordovaLib\build\intermediates\manifests\full\debug\AndroidManifest.xml:25:5-44
 MERGED from [:CordovaLib] C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\CordovaLib\build\intermediates\manifests\full\debug\AndroidManifest.xml:25:5-44
-INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:5-74
-	tools:overrideLibrary
-		ADDED from [com.android.support:support-v4:24.1.1] C:\Users\Pablo\.gradle\caches\transforms-1\files-1.1\support-v4-24.1.1.aar\41f7051a8c80089e37b4470ccbf28149\AndroidManifest.xml:23:9-51
+INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:5-74
 	android:targetSdkVersion
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:42-71
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:42-71
 	android:minSdkVersion
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:15-41
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:15-41
 		INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml
-uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:17:5-81
-	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:17:22-78
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:18:5-81
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:14:5-81
 	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:18:22-78
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:14:22-78
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:19:5-79
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:15:5-79
 	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:19:22-76
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:15:22-76
 uses-feature#android.hardware.location.gps
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:20:5-66
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:5-66
 	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:20:19-63
-meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:13-123
-	android:resource
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:75-120
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:16:19-63
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:17:5-79
 	android:name
-		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:13:24-74
+		ADDED from C:\Users\Pablo\Desktop\Obligatorio_Cordova\platforms\android\app\src\main\AndroidManifest.xml:17:22-76

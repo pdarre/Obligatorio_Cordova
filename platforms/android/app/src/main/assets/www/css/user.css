@@ -1,6 +1,6 @@
 #tituloMenu{
   height: 120px;
-  background-color: #7DC7C0;
+  background-color: #3F51B5;
 }
 
 #menuFooter{
@@ -31,7 +31,7 @@
 }
 
 .fas{
-  margin-right: 30px;
+  margin-right: 0px;
 }
 
 .textMenu{
@@ -42,14 +42,6 @@
     width: 70%;
     margin-top: 50px;
     margin-bottom: 30px;
-}
-
-#progressCircular{
-    visibility: hidden;
-}
-
-#progressCircularRegistro{
-    visibility: hidden;
 }
 
 .inputForm{
@@ -70,13 +62,6 @@
     text-align: center;
 }
 
-#tituloRegistroVehiculo{
-  margin-top: 70px;
-}
 .center{
     text-align: center;
-}
-
-#iconPlus{
-  margin-top: 18px;
 }

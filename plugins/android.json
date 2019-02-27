@@ -18,6 +18,9 @@
     },
     "cordova-plugin-network-information": {
       "PACKAGE_NAME": "io.cordova.pablo"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "io.cordova.pablo"
     }
   },
   "dependent_plugins": {}

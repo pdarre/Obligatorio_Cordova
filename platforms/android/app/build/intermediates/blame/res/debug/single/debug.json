@@ -8,12 +8,20 @@
         "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
     },
     {
+        "merged": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-ldpi_screen.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\drawable-land-ldpi\\screen.png"
+    },
+    {
         "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml_config.xml.flat",
         "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\xml\\config.xml"
     },
     {
-        "merged": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_screen.png.flat",
-        "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\screen.png"
+        "merged": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-xhdpi_screen.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\drawable-land-xhdpi\\screen.png"
+    },
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-mdpi_screen.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\drawable-land-mdpi\\screen.png"
     },
     {
         "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_icon.png.flat",
@@ -22,6 +30,10 @@
     {
         "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_screen.png.flat",
         "source": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\src\\main\\res\\drawable-mdpi\\screen.png"
+    },
+    {
+        "merged": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\drawable-land-hdpi_screen.png.flat",
+        "source": "C:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\src\\main\\res\\drawable-land-hdpi\\screen.png"
     },
     {
         "merged": "C:\\Users\\Pablo\\Desktop\\CordovaProject\\platforms\\android\\app\\build\\intermediates\\res\\merged\\debug\\xml_camera_provider_paths.xml.flat",

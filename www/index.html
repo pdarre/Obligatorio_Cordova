@@ -33,13 +33,13 @@
                     <div class="titulo">Login</div>
                     <p>
                         <i class="fas fa-user"></i>
-                        <ons-input class="inputForm" id="username" modifier="underbar" placeholder="Username"
-                            value="pablo@pablo.com" float autocomplete></ons-input>
+                        <ons-input class="inputForm" id="username" modifier="underbar" placeholder="Username" float
+                            autocomplete></ons-input>
                     </p>
                     <p>
                         <i class="fas fa-key"></i>
                         <ons-input class="inputForm" id="password" modifier="underbar" type="password"
-                            placeholder="Password" value="carbonero1" float autocomplete></ons-input>
+                            placeholder="Password" float autocomplete></ons-input>
                     </p>
                     <p style="margin-top: 30px;">
                         <ons-button class="inputForm" id="btnlogin" ontouchstart="login();">Ingresar</ons-button>
@@ -88,10 +88,6 @@
                                 <ons-button class="inputForm" id="push-button" modifier="quiet"
                                     ontouchstart="myNavigator.pushPage('login.html')">Ya estoy registrado</ons-button>
                             </p>
-                            <p>
-                                <ons-button modifier="quiet" ontouchstart="myNavigator.pushPage('appPage.html')">app
-                                </ons-button>
-                            </p>
                     </form>
                 </div>
             </ons-page>
@@ -121,10 +117,6 @@
                                 <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('misServicios.html')"
                                     tappable>
                                     <i class="fas fa-tools"></i> Mis servicios
-                                </ons-list-item>
-                                <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('ubicacion.html')"
-                                    tappable>
-                                    <i class="fas fa-sign-out-alt"></i> Mapas
                                 </ons-list-item>
                             </ons-list>
                             <ons-list-item side="right" class="textMenu" id="menuFooter" ontouchstart="logout();"
@@ -196,7 +188,7 @@
                     </ons-page>
                 </template>
 
-                <template id="confirmarServicio.html">
+                <!-- <template id="confirmarServicio.html">
                     <ons-page>
                         <ons-toolbar>
 
@@ -209,7 +201,7 @@
                             <ons-button id="pop" onclick="navigator.popPage()"></ons-button>
                         </script>
                     </ons-page>
-                </template>
+                </template> -->
 
                 <template id="misServicios.html">
                     <ons-page>
@@ -226,9 +218,18 @@
                         <ons-progress-bar indeterminate></ons-progress-bar>
                         <script>
                             $("ons-progress-bar").hide();
+                            getMisVehiculos();
                         </script>
 
-                        <div id="contenidoMisServicios"></div>
+                        <h3 class="center">Seleccione vehiculo</h3>
+                        <div class="center" id="divMatriculas">
+                            
+                        </div>
+                        <div>
+                            <ons-list modifier="inset" id="listVehi">
+
+                            </ons-list>
+                        </div>
 
                     </ons-page>
                 </template>
@@ -303,10 +304,12 @@
                             <label id="lblDialog"></label>
                             <div style="text-align: center; margin-top: 30px;">
                                 <p>
-                                    <ons-input id="txtDate" type="date" modifier="underbar" placeholder="Fecha"  float></ons-input>
+                                    <ons-input id="txtDate" type="date" modifier="underbar" placeholder="Fecha" float>
+                                    </ons-input>
                                 </p>
                                 <p>
-                                    <ons-input id="txtKilometraje" modifier="underbar" type="number" placeholder="Kilometraje" float>
+                                    <ons-input id="txtKilometraje" modifier="underbar" type="number"
+                                        placeholder="Kilometraje" float>
                                     </ons-input>
                                 </p>
                                 <p>

@@ -13,6 +13,10 @@
     <feature name="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
     </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
     <name>CordovaApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -29,6 +33,12 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="market:*" />
-    <icon src="res/icon.png" />
+    <icon src="res/icon/icon.png" />
+    <splash density="land-hdpi" src="res/screen/android/screen-hdpi-portrait.png" />
+    <splash density="land-ldpi" src="res/screen/android/screen-hdpi-portrait.png" />
+    <splash density="land-mdpi" src="res/screen/android/screen-hdpi-portrait.png" />
+    <splash density="land-xhdpi" src="res/screen/android/screen-hdpi-portrait.png" />
     <preference name="loglevel" value="DEBUG" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="3000" />
 </widget>

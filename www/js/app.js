@@ -2,8 +2,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
     BD.webdb.open();
     BD.webdb.createTable();
     checkConnection();
-  })
+    document.addEventListener("backbutton", onBackKeyDown, false);
+})
 
+function onBackKeyDown() {
+    ons.notification.alert('Va a salir de la app');
+}
 
 document.addEventListener('init', function (event) {
     if (event.target.matches('#selecionarServicio')) {
@@ -13,7 +17,7 @@ document.addEventListener('init', function (event) {
     }
 })
 
-document.addEventListener("offline", onOffline, false); 
+document.addEventListener("offline", onOffline, false);
 function onOffline() {
     ons.notification.alert('Conecte el dispositivo a internet');
 }
@@ -48,7 +52,7 @@ var app = {
     // Application Constructor
     initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-        
+
     },
 
     // deviceready Event Handler
@@ -59,7 +63,7 @@ var app = {
         this.receivedEvent('deviceready');
         window.addEventListener("batterystatus", onBatteryStatus, false);
         chequearConexion();
-        
+
     },
 
     // Update DOM on a Received Event
@@ -88,14 +92,14 @@ function checkConnection() {
     var networkState = navigator.connection.type;
 
     var states = {};
-    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.UNKNOWN] = 'Unknown connection';
     states[Connection.ETHERNET] = 'Ethernet connection';
-    states[Connection.WIFI]     = 'WiFi connection';
-    states[Connection.CELL_2G]  = 'Cell 2G connection';
-    states[Connection.CELL_3G]  = 'Cell 3G connection';
-    states[Connection.CELL_4G]  = 'Cell 4G connection';
-    states[Connection.CELL]     = 'Cell generic connection';
-    states[Connection.NONE]     = 'No network connection';
+    states[Connection.WIFI] = 'WiFi connection';
+    states[Connection.CELL_2G] = 'Cell 2G connection';
+    states[Connection.CELL_3G] = 'Cell 3G connection';
+    states[Connection.CELL_4G] = 'Cell 4G connection';
+    states[Connection.CELL] = 'Cell generic connection';
+    states[Connection.NONE] = 'No network connection';
 
     ons.notification.alert('Connection type: ' + states[networkState]);
 }
@@ -170,13 +174,13 @@ BD.webdb.createTable = function () {
 BD.webdb.addFavorito = function (idu, ids) {
     var db = BD.webdb.db;
     db.transaction(function (tx) {
-      var addedOn = new Date();
-      tx.executeSql("INSERT INTO Favoritos(idUsuario, servicioID) VALUES (?,?)",
-        [idu, ids],
-        BD.webdb.onSuccess,
-        BD.webdb.onError);
+        var addedOn = new Date();
+        tx.executeSql("INSERT INTO Favoritos(idUsuario, servicioID) VALUES (?,?)",
+            [idu, ids],
+            BD.webdb.onSuccess,
+            BD.webdb.onError);
     });
-  };
+};
 
 //RECUPERANDO LOS DATOS DEL USUARIO
 function getDatosUsuario(id) {
@@ -213,7 +217,8 @@ function registro() {
             }),
             success: function (response) {
                 respuesta = response;
-                document.querySelector('#myNavigator').pushPage('page2.html');
+                console.log(response);
+                myNavigator.pushPage('login.html');
                 enableInputs();
             },
             error: function (err, cod, msg) {
@@ -228,6 +233,8 @@ function registro() {
 function login() {
     var usu = $("#username").val();
     var pass = $("#password").val();
+    console.log(usu);
+    console.log(pass);
     if (validarEmail(usu)) {
         disableInputs();
         $.ajax({
@@ -244,12 +251,12 @@ function login() {
                 sessionStorage.setItem("email", response.description.usuario.email);
                 sessionStorage.setItem("idUsuario", response.description.usuario.id);
                 enableInputs();
-                cargarPagina();
                 cargarDatosUsuario();
+                myNavigator.pushPage('appPage.html');
             },
-            error: function (err, cod, msg) {
-                var resp = err.responseJSON.description;
-                ons.notification.alert({ message: resp });
+            error: function (response) {
+                console.log(response);
+                ons.notification.alert(response.responseJSON.descripcion);
                 enableInputs();
             }
         });
@@ -260,6 +267,8 @@ function guardarVehiculo() {
     var mat = $("#txtMAtricula").val();
     var desc = $("#txtDescripcion").val();
     if (!esVacio(mat) && !esVacio(desc)) {
+        $("ons-progress-bar").show();
+        disableInputs();
         var idU = sessionStorage.getItem("idUsuario");
         var datos = {
             matricula: mat,
@@ -275,16 +284,21 @@ function guardarVehiculo() {
             type: "POST",
             data: datos,
             success: function (response) {
-                document.querySelector('#myNavigator').pushPage('home.html');
+                $("ons-progress-bar").hide();
+                enableInputs();
+                console.log(response);
+                myNavigator.resetToPage('appPage.html');
+                // document.querySelector('#myNavigator').pushPage('home.html');
             },
-            error: function (xmlrequest) {
-                ons.notification.toast(xmlrequest.responseJSON.descripcion, { timeout: 2000 });
+            error: function (response) {
+                ons.notification.toast(response.responseJSON.descripcion, { timeout: 2000 });
             }
         });
     };
 };
 
 function listarVehiculos() {
+    $("ons-progress-bar").show();
     var idU = sessionStorage.getItem("idUsuario");
     $.ajax({
         headers: {
@@ -294,26 +308,77 @@ function listarVehiculos() {
         type: "GET",
         success: function (response) {
             cargarListaMisVehiculos(response);
+            $("ons-progress-bar").hide();
         },
         error: function (response) {
+            $("ons-progress-bar").hide();
             ons.notification.toast(response.description, { timeout: 3000 });
         }
     });
 };
 
+function mantenimientosVehiculo(id) {
+    $("ons-progress-bar").show();
+    var idU = sessionStorage.getItem("idUsuario");
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/mantenimiento/?vehiculo=" + idU,
+        type: "GET",
+        success: function (response) {
+            console.log('mantenimientosVehiculo');
+            console.log(response);
+            $("ons-progress-bar").hide();
+        },
+        error: function (response) {
+            $("ons-progress-bar").hide();
+            ons.notification.toast(response.description, { timeout: 3000 });
+        }
+    });
+}
+
+function getMisVehiculos() {
+    $("ons-progress-bar").show();
+    var idU = sessionStorage.getItem("idUsuario");
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/vehiculo/?usuario=" + idU,
+        type: "GET",
+        success: function (response) {
+            armarListaSelect(response);
+            $("ons-progress-bar").hide();
+        },
+        error: function (response) {
+            $("ons-progress-bar").hide();
+            ons.notification.toast(response.description, { timeout: 3000 });
+        }
+    });
+}
+
+function armarListaSelect(r) {
+    var inicio = "<ons-select id='choose-sel' onchange='editSelects(event)'>";
+    var medio;
+    for(var i =0;i<r.description.length;i++){
+        medio += "<option value='"+ r.description[i].id +"'>" + r.description[i].matricula + "</option>"
+    }
+    var fin = "</ons-select>";
+    var total = inicio += medio += fin;
+    $('#divMatriculas').append(total);
+}
+
 function cargarListaMisVehiculos(r) {
     for (var i = 0; i < r.description.length; i++) {
         $('#contenidoMiVehiculo').append(
             "<ons-card>" +
-            // "<div style='width:20%;'>" +
-            // "<img src='img/imagenAuto.png'>" +
-            // "</div>" +
             "<div class='title' width:80%;>" +
             "Matricula: " + r.description[i].matricula +
             "</div>" +
             "<div class='content'>" +
-            "<div>ID: " + r.description[i].id + "</div>" +
-            "<div>Desc: " + r.description[i].descripcion + "</div>" +
+            // "<div>ID: " + r.description[i].id + "</div>" +
+            "<div>" + r.description[i].descripcion + "</div>" +
             "</div>" +
             "<div>" +
             "<ons-button modifier='quiet' ontouchstart='listarServiciosById(" + r.description[i].id + ")'>Mis servicios</ons-button>" +
@@ -330,6 +395,7 @@ function caargarPaginaServicios(id) {
 }
 
 function listarServicios() {
+    $("ons-progress-bar").show();
     $.ajax({
         headers: {
             "Authorization": sessionStorage.getItem("token")
@@ -338,8 +404,10 @@ function listarServicios() {
         type: "GET",
         success: function (response) {
             cargarServicios(response);
+            $("ons-progress-bar").hide();
         },
         error: function (response) {
+            $("ons-progress-bar").hide();
             ons.notification.toast(response.descripcion, { timeout: 3000 });
         }
     });
@@ -422,7 +490,7 @@ function guardarServicio() {
         url: "http://api.marcelocaiafa.com/mantenimiento",
         type: "POST",
         data: datos,
-        success: function (response) {            
+        success: function (response) {
             myNavigator.resetToPage('appPage.html');
             limpiarFormularioServicios();
             hideDialog();
@@ -613,7 +681,7 @@ function setMarkers(map) {
         markers.push(marker);
 
         google.maps.event.addListener(marker, 'click', function () {
-            hideAllInfoWindows(map);            
+            hideAllInfoWindows(map);
             this.infowindow.open(map, this);
         });
 
@@ -631,7 +699,7 @@ function RegistrarServicio(id) {
     showTemplateDialog(id);
 };
 
-function agregarFavoritos(id){    
+function agregarFavoritos(id) {
     var idu = sessionStorage.getItem('idUsuario');
     var ids = sessionStorage.getItem('servicioId');
     BD.webdb.addFavorito(idu, ids);
@@ -688,7 +756,7 @@ function formato(texto) {
     return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
 }
 
-function hideDialog(){
+function hideDialog() {
     $('#my-dialog').hide();
 }
 
@@ -700,3 +768,16 @@ function crearRuta(lat, long) {
     dibujarRuta(lat, long);
 };
 /* #endregion */
+
+
+function editSelects(event) {
+    ons.notification.alert(event.target.value);
+}
+
+// function addOption(event) {
+//     const option = document.createElement('option');
+//     var text = document.getElementById('optionLabel').value;
+//     option.innerText = text;
+//     text = '';
+//     document.getElementById('dynamic-sel').appendChild(option);
+// }

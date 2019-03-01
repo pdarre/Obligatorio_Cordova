@@ -1,8 +1,9 @@
+document.addEventListener("backbutton", onBackKeyDown, false);
+
 document.addEventListener('DOMContentLoaded', function (event) {
     BD.webdb.open();
     BD.webdb.createTable();
     checkConnection();
-    document.addEventListener("backbutton", onBackKeyDown, false);
 })
 
 function onBackKeyDown() {
@@ -22,11 +23,11 @@ function onOffline() {
     ons.notification.alert('Conecte el dispositivo a internet');
 }
 
-function init() {
-    BD.webdb.open();
-    BD.webdb.createTable();
-    checkConnection();
-};
+// function init() {
+//     BD.webdb.open();
+//     BD.webdb.createTable();
+//     checkConnection();
+// };
 
 
 /*
@@ -52,7 +53,6 @@ var app = {
     // Application Constructor
     initialize: function () {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-
     },
 
     // deviceready Event Handler
@@ -63,6 +63,7 @@ var app = {
         this.receivedEvent('deviceready');
         window.addEventListener("batterystatus", onBatteryStatus, false);
         chequearConexion();
+        document.addEventListener("backbutton", onBackKeyDown, false);
 
     },
 
@@ -74,8 +75,6 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
 };
 
@@ -159,14 +158,13 @@ BD.webdb.onError = function (tx, e) {
 
 BD.webdb.onSuccess = function (tx, r) {
     ons.notification.toast("Favorito agregado", { timeout: 3000 });
-    console.log("Success: " + r.toString());
 };
 
 //CREANDO UN A TABLA
 BD.webdb.createTable = function () {
     var db = BD.webdb.db;
     db.transaction(function (tx) {
-        tx.executeSql("CREATE TABLE IF NOT EXISTS Favoritos (idUsuario TEXT, servicioID integer)", []);
+        tx.executeSql("CREATE TABLE IF NOT EXISTS Favoritos (idUsuario TEXT, tallerId integer)", []);
     });
 };
 
@@ -175,20 +173,21 @@ BD.webdb.addFavorito = function (idu, ids) {
     var db = BD.webdb.db;
     db.transaction(function (tx) {
         var addedOn = new Date();
-        tx.executeSql("INSERT INTO Favoritos(idUsuario, servicioID) VALUES (?,?)",
+        tx.executeSql("INSERT INTO Favoritos(idUsuario, tallerId) VALUES (?,?)",
             [idu, ids],
             BD.webdb.onSuccess,
             BD.webdb.onError);
     });
 };
 
-//RECUPERANDO LOS DATOS DEL USUARIO
-function getDatosUsuario(id) {
+var favs = [];
+function getFavorito(id) {
     var db = BD.webdb.db;
-    db.transaction(function (tx) {
-        tx.executeSql('SELECT * FROM Usuario WHERE idUsuario=? and added_on =(SELECT MAX(added_on) FROM Usuario)', [id], function (tx, results) {
-            console.log(results.rows[0].email);
-            console.log(results);
+    db.transaction(function (tran) {
+        tran.executeSql('select count(*) as result from favoritos where tallerId=?', [id], function (tran, data) {
+            for (var x = 0; x < data.rows.length; x++) {
+                favs.push(data.rows[0].result);
+            }
         });
     });
 };
@@ -217,7 +216,6 @@ function registro() {
             }),
             success: function (response) {
                 respuesta = response;
-                console.log(response);
                 myNavigator.pushPage('login.html');
                 enableInputs();
             },
@@ -233,8 +231,6 @@ function registro() {
 function login() {
     var usu = $("#username").val();
     var pass = $("#password").val();
-    console.log(usu);
-    console.log(pass);
     if (validarEmail(usu)) {
         disableInputs();
         $.ajax({
@@ -255,7 +251,6 @@ function login() {
                 myNavigator.pushPage('appPage.html');
             },
             error: function (response) {
-                console.log(response);
                 ons.notification.alert(response.responseJSON.descripcion);
                 enableInputs();
             }
@@ -286,9 +281,7 @@ function guardarVehiculo() {
             success: function (response) {
                 $("ons-progress-bar").hide();
                 enableInputs();
-                console.log(response);
                 myNavigator.resetToPage('appPage.html');
-                // document.querySelector('#myNavigator').pushPage('home.html');
             },
             error: function (response) {
                 ons.notification.toast(response.responseJSON.descripcion, { timeout: 2000 });
@@ -327,8 +320,6 @@ function mantenimientosVehiculo(id) {
         url: "http://api.marcelocaiafa.com/mantenimiento/?vehiculo=" + idU,
         type: "GET",
         success: function (response) {
-            console.log('mantenimientosVehiculo');
-            console.log(response);
             $("ons-progress-bar").hide();
         },
         error: function (response) {
@@ -359,10 +350,11 @@ function getMisVehiculos() {
 }
 
 function armarListaSelect(r) {
-    var inicio = "<ons-select id='choose-sel' onchange='editSelects(event)'>";
+    var inicio = "<ons-select id='choose-sel' onchange='editSelects(event)'>" +
+        "<option value='0'>Matricula</option>";
     var medio;
-    for(var i =0;i<r.description.length;i++){
-        medio += "<option value='"+ r.description[i].id +"'>" + r.description[i].matricula + "</option>"
+    for (var i = 0; i < r.description.length; i++) {
+        medio += "<option value='" + r.description[i].id + "'>" + r.description[i].matricula + "</option>"
     }
     var fin = "</ons-select>";
     var total = inicio += medio += fin;
@@ -381,7 +373,6 @@ function cargarListaMisVehiculos(r) {
             "<div>" + r.description[i].descripcion + "</div>" +
             "</div>" +
             "<div>" +
-            "<ons-button modifier='quiet' ontouchstart='listarServiciosById(" + r.description[i].id + ")'>Mis servicios</ons-button>" +
             "<ons-button modifier='quiet' ontouchstart='caargarPaginaServicios(" + r.description[i].id + ")'>Agregar servicio</ons-button>" +
             "</div>" +
             "</ons-card>"
@@ -535,7 +526,7 @@ function logout() {
 function cargarDatosUsuario() {
     $(document).ready(function () {
         $("#lblEmail").text(sessionStorage.getItem("email"));
-        $('#lblIdUsuario').text("ID: " + sessionStorage.getItem("idUsuario"));
+        $('#lblIdUsuario').text(sessionStorage.getItem("idUsuario"));
     });
 };
 
@@ -654,15 +645,17 @@ function dibujarRuta(lati, long) {
             }
         });
 };
+
 function setMarkers(map) {
+
+    var lineaFav;
     for (var i = 0; i < talleres.length; i++) {
-        var location = talleres[i];
         var locationInfowindow = new google.maps.InfoWindow({
             content: "<div><strong>" + talleres[i].descripcion + "</strong></div>" +
                 "<div>" + talleres[i].direccion + "</div>" +
                 "<div>" + talleres[i].telefono + "</div>" +
                 "<img src='http://images.marcelocaiafa.com/" + talleres[i].imagen + "' style='width:100px;height:80px;'>" +
-                "<div><ons-button modifier='quiet' onclick='agregarFavoritos(" + talleres[i].id + ")'>favorito</ons-button></div>" +
+                "<img src='img/fav_no.png' style='width: 10%;padding-left:10px;' onclick='agregarFavoritos(" + favs + ")'>" +
                 "<div><ons-button modifier='quiet' onclick='crearRuta(" +
                 talleres[i].ubicacion.latitudLocal + "," + talleres[i].ubicacion.longitudLocal + ")'>Ruta al taller</ons-button></div>" +
                 "<div><ons-button modifier='quiet' onclick='RegistrarServicio(" + talleres[i].id + ")'>Registrar servicio</ons-button></div>"
@@ -709,7 +702,6 @@ var showTemplateDialog = function (id) {
     var dialog = document.getElementById('my-dialog');
     if (dialog) {
         dialog.show();
-        //cargar los datos que ya tengo desde sessionStage/ recordar guardar en session el id del servicio
     } else {
         ons.createElement('dialog.html', { append: true })
             .then(function (dialog) {
@@ -769,15 +761,99 @@ function crearRuta(lat, long) {
 };
 /* #endregion */
 
-
-function editSelects(event) {
-    ons.notification.alert(event.target.value);
+function getMAntenimientosByIdVehiculo(id) {
+    $("ons-progress-bar").show();
+    var idU = sessionStorage.getItem("idUsuario");
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/mantenimiento/?vehiculo=" + id,
+        type: "GET",
+        success: function (response) {
+            listaMantenimientos(response);
+            $("ons-progress-bar").hide();
+        },
+        error: function (response) {
+            $("ons-progress-bar").hide();
+            ons.notification.toast(response.responseJSON.descripcion, { timeout: 3000 });
+        }
+    });
+}
+function mostrarDetalle(id) {
+    $("ons-progress-bar").show();
+    var idU = sessionStorage.getItem("idUsuario");
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/mantenimiento/" + id,
+        type: "GET",
+        success: function (response) {
+            notificarDetalle(response);
+            $("ons-progress-bar").hide();
+        },
+        error: function (response) {
+            $("ons-progress-bar").hide();
+            ons.notification.toast(response.description, { timeout: 3000 });
+        }
+    });
 }
 
-// function addOption(event) {
-//     const option = document.createElement('option');
-//     var text = document.getElementById('optionLabel').value;
-//     option.innerText = text;
-//     text = '';
-//     document.getElementById('dynamic-sel').appendChild(option);
-// }
+function getNombreTaller(idTaller, idServicio) {
+    $("ons-progress-bar").show();
+    var idU = sessionStorage.getItem("idUsuario");
+    $.ajax({
+        headers: {
+            "Authorization": sessionStorage.getItem("token")
+        },
+        url: "http://api.marcelocaiafa.com/taller/?servicio=" + idServicio,
+        type: "GET",
+        success: function (response) {
+            for (var i = 0; i < response.description.length; i++) {
+                if (response.description[i].id == idTaller) {
+                    nombreTaller = response.description[i].descripcion;
+                }
+            }
+            $("ons-progress-bar").hide();
+        },
+        error: function (response) {
+            $("ons-progress-bar").hide();
+            ons.notification.toast(response.description, { timeout: 3000 });
+        }
+    });
+}
+var nombreTaller = "";
+function notificarDetalle(r) {
+    getNombreTaller(r.description.mantenimiento.taller, r.description.mantenimiento.servicio);
+    var detalle = "<div>Fecha: " + r.description.mantenimiento.created + "</div>" +
+        "<div>Taller: " + nombreTaller + "</div>" +
+        "<div>Servicio: " + r.description.mantenimiento.descripcion + "</div>" +
+        "<div>Descripcion: " + r.description.servicio.descripcion + "</div>" +
+        "<div>Costo Total: " + costoTotal + "</div>";
+
+    ons.notification.alert(detalle, { buttonLabels: "Cerrar", title: "Detalle de mantenimiento", cancelable: true });
+}
+
+function editSelects(event) {
+    getMAntenimientosByIdVehiculo(event.target.value)
+}
+
+var costoTotal = 0;
+function listaMantenimientos(r) {
+    costoTotal = 0;
+    document.getElementById('listaServiciosByVehiculo').innerHTML = "";
+    if (r.description.length == 0) document.getElementById('listaServiciosByVehiculo').innerHTML = "No hay servicios registrados para este vehiculo";
+
+    for (var i = 0; i < r.description.length; i++) {
+        var costo = parseInt(r.description[i].costo);
+        costoTotal += costo;
+        $('#listaServiciosByVehiculo').append(
+            "<ons-list-item modifier='chevron' onclick='detalleServicio(" + r.description[i].id + ")' tappable>" + r.description[i].descripcion + "</ons-list-item>"
+        );
+    }
+}
+
+function detalleServicio(id) {
+    mostrarDetalle(id);
+}

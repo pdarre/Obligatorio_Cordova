@@ -33,8 +33,8 @@
                     <div class="titulo">Login</div>
                     <p>
                         <i class="fas fa-user"></i>
-                        <ons-input class="inputForm" id="username" modifier="underbar" placeholder="Username" float
-                            autocomplete></ons-input>
+                        <ons-input class="inputForm" id="username" type="email" modifier="underbar"
+                            placeholder="Username" float autocomplete></ons-input>
                     </p>
                     <p>
                         <i class="fas fa-key"></i>
@@ -112,7 +112,7 @@
                                 </ons-list-item>
                                 <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('home.html')"
                                     tappable>
-                                    <i id="iconMyCars" class="fas fa-car"></i> Mi vehiculo
+                                    <i id="iconMyCars" class="fas fa-car"></i> Mis vehiculos
                                 </ons-list-item>
                                 <ons-list-item side="right" class="textMenu" ontouchstart="fn.load('misServicios.html')"
                                     tappable>
@@ -146,7 +146,7 @@
                             listarVehiculos();
                         </script>
                         <ons-fab position="bottom right">
-                            <ons-icon icon="md-plus" ontouchstart="fn.load('agregarVehiculo.html')"></ons-icon>
+                            <ons-icon icon="md-plus" style="padding-top:5px;" onclick="fn.load('agregarVehiculo.html')"></ons-icon>
                         </ons-fab>
 
                         <div id="contenidoMiVehiculo"></div>
@@ -156,8 +156,15 @@
 
                 <template id="mapa.html">
                     <ons-page id="mapa">
+                        <ons-toolbar>
+                            <div class="left">
+                                <i class="fas fa-arrow-left" style="padding-left: 10px;"
+                                    onclick="myNavigator.popPage()"> Volver</i>
+                            </div>
+                            <div class="center"></div>
+                        </ons-toolbar>
                         <script
-                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhfTvXeR1_KtzXelJWoMu64w9RaZ7bmE8&callback=correrMapa"
+                            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABRQMj4Q2uNbBRfICEW_k4V3nFrcfV3Yw&callback=correrMapa"
                             async defer></script>
                         <style>
                             html,
@@ -188,21 +195,6 @@
                     </ons-page>
                 </template>
 
-                <!-- <template id="confirmarServicio.html">
-                    <ons-page>
-                        <ons-toolbar>
-
-                            <div class="center">
-                                Confirmar
-                            </div>
-                        </ons-toolbar>
-                        <ons-progress-bar indeterminate></ons-progress-bar>
-                        <script>
-                            <ons-button id="pop" onclick="navigator.popPage()"></ons-button>
-                        </script>
-                    </ons-page>
-                </template> -->
-
                 <template id="misServicios.html">
                     <ons-page>
                         <ons-toolbar>
@@ -223,14 +215,14 @@
 
                         <h3 class="center">Seleccione vehiculo</h3>
                         <div class="center" id="divMatriculas">
-                            
+
                         </div>
                         <div>
-                            <ons-list modifier="inset" id="listVehi">
+                            <ons-list modifier="inset" id="listaServiciosByVehiculo">
 
                             </ons-list>
                         </div>
-
+                        <div id="costoTotal"></div>
                     </ons-page>
                 </template>
 
@@ -240,13 +232,10 @@
                     <ons-page id="agregarVehiculo">
                         <ons-toolbar>
                             <div class="left">
-                                <ons-toolbar-button ontouchstart="fn.open()">
-                                    <ons-icon icon="md-menu"></ons-icon>
-                                </ons-toolbar-button>
+                                <i class="fas fa-arrow-left" style="padding-left: 10px;"
+                                    onclick="fn.load('appPage.html')"> Volver</i>
                             </div>
-                            <div class="center">
-                                Agregar vechiculo
-                            </div>
+                            <div class="center"></div>
                         </ons-toolbar>
                         <ons-progress-bar indeterminate></ons-progress-bar>
                         <script>
@@ -284,9 +273,11 @@
                 <template id="servicios.html">
                     <ons-page id="servicios">
                         <ons-toolbar>
-                            <div class="center">
-                                Servicios
+                            <div class="left">
+                                <i class="fas fa-arrow-left" style="padding-left: 10px;"
+                                    onclick="fn.load('appPage.html')"> Volver</i>
                             </div>
+                            <div class="center"></div>
                         </ons-toolbar>
                         <ons-progress-bar indeterminate></ons-progress-bar>
                         <script>

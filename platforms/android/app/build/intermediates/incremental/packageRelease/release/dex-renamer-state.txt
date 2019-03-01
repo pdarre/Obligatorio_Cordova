@@ -1,0 +1,4 @@
+#Wed Feb 27 13:16:42 UYT 2019
+base.0=C\:\\Users\\Pablo\\Desktop\\Obligatorio_Cordova\\platforms\\android\\app\\build\\intermediates\\transforms\\dex\\release\\0
+path.0=classes.dex
+renamed.0=classes.dex

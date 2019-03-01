@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.cordova.pablo" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>CordovaApp</name>
+    <name>Obligatorio</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -23,8 +23,9 @@
         <splash density="land-ldpi" src="res/screen/android/screen-hdpi-portrait.png" />
         <splash density="land-mdpi" src="res/screen/android/screen-hdpi-portrait.png" />
         <splash density="land-xhdpi" src="res/screen/android/screen-hdpi-portrait.png" />
+        <preference name="orientation" value="portrait" />
         <preference name="AutoHideSplashScreen" value="true" />
-        <preference name="SplashScreenDelay" value="3000" />
+        <preference name="SplashScreenDelay" value="2000" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
